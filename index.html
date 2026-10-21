@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173b32"><meta name="description" content="Offline-first customizable business payment calculator">
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>Business Payment Calculator</title>
+<style>
+:root{--ink:#172b26;--muted:#64746e;--green:#176b52;--green2:#e7f4ee;--line:#dce6e0;--bg:#f4f7f5;--card:#fff;--red:#a83232;--amber:#805b08}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:11px;padding:11px 14px;background:var(--green);color:white;font-weight:650}button.secondary{background:#edf2ef;color:var(--ink);border:1px solid var(--line)}button.danger{background:#fff0f0;color:var(--red);border:1px solid #f0caca}button.small{padding:7px 10px;font-size:13px}button:disabled{opacity:.5;cursor:not-allowed}header{background:#173b32;color:white;padding:18px max(16px,calc((100% - 1050px)/2));position:sticky;top:0;z-index:4;box-shadow:0 3px 12px #0a20181c}header .top{display:flex;align-items:center;justify-content:space-between;gap:12px}header h1{font-size:19px;margin:0}header p{margin:3px 0 0;color:#d3e5dc;font-size:12px}.wrap{max-width:1050px;margin:auto;padding:16px 14px 90px}.tabs{display:flex;gap:8px;overflow:auto;padding:12px 0 4px}.tabs button{white-space:nowrap;flex:0 0 auto}.tabs button.active{background:#d7eee3;color:#164a39}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:12px;box-shadow:0 2px 8px #193c2d06}.card h2,.card h3{margin:0 0 12px}.card h2{font-size:17px}.card h3{font-size:15px}.metric{font-size:23px;font-weight:800;letter-spacing:-.5px;overflow-wrap:anywhere}.muted{color:var(--muted);font-size:12px}.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.between{display:flex;justify-content:space-between;align-items:center;gap:10px}.field{display:flex;flex-direction:column;gap:5px;margin:0 0 11px;min-width:0}.field label{font-size:12px;color:var(--muted);font-weight:650}.field input,.field select,.field textarea,input,select,textarea{width:100%;padding:10px 11px;border:1px solid #ccd9d1;border-radius:10px;background:#fff;color:var(--ink);min-width:0}.field textarea{min-height:75px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 10px}.wide{grid-column:1/-1}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}td,th{text-align:left;padding:10px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.04em}.pill{display:inline-block;padding:4px 8px;border-radius:99px;background:var(--green2);color:#1b6149;font-size:11px;font-weight:700}.notice{padding:11px 12px;border-radius:11px;background:#fff7df;color:#76570d;font-size:13px;margin:10px 0}.empty{text-align:center;color:var(--muted);padding:24px}.actions{display:flex;gap:7px;flex-wrap:wrap}.hidden{display:none!important}.menuitem{width:100%;text-align:left;display:flex;justify-content:space-between;align-items:center;margin:7px 0;background:#fff;color:var(--ink);border:1px solid var(--line)}.menuitem span{display:block}.menuitem small{display:block;color:var(--muted);font-weight:400;margin-top:2px}.status{font-size:12px;color:#d5eadf}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#173b32;color:white;padding:12px 18px;border-radius:12px;z-index:10;box-shadow:0 4px 20px #0002;max-width:90vw}.subpanel{display:none}.subpanel.active{display:block}.hr{border:0;border-top:1px solid var(--line);margin:14px 0}.brand{font-weight:800}.tiny{font-size:11px;color:var(--muted)}.itemline{border:1px solid var(--line);padding:12px;border-radius:12px;margin:8px 0;background:#fbfdfb}.resultline{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line)}.resultline:last-child{border:0}.total{background:#e7f4ee;padding:13px;border-radius:12px}.total .metric{color:#145a42}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.formgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.wrap{padding-top:22px}.mobileonly{display:none}}
+@media(max-width:480px){.metric{font-size:20px}.card{padding:13px}.formgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.actions button{flex:1}header h1{font-size:17px}}
+</style></head>
+<body>
+<header><div class="top"><div><h1 id="appTitle">Business Payment Calculator</h1><p>Customisable • Offline-first • Data stays on this device</p></div><button class="secondary small" onclick="showTab('menu')" aria-label="Open menu">☰ Menu</button></div></header>
+<div class="wrap">
+<nav class="tabs" aria-label="Main navigation">
+<button class="active" data-tab="dashboard" onclick="showTab('dashboard')">Dashboard</button>
+<button data-tab="new" onclick="showTab('new')">＋ New Entry</button>
+<button data-tab="transactions" onclick="showTab('transactions')">Transactions</button>
+<button data-tab="average" onclick="showTab('average')">Average Price</button>
+<button data-tab="menu" onclick="showTab('menu')">Menu & Settings</button>
+</nav>
+<section id="dashboard" class="panel active">
+<div class="card"><div class="between"><div><h2>Business overview</h2><div class="muted">Filter totals and reports by date and firm.</div></div><span class="pill">Local data</span></div>
+<div class="formgrid" style="margin-top:12px"><div class="field"><label>From date</label><input type="date" id="dashFrom"></div><div class="field"><label>To date</label><input type="date" id="dashTo"></div><div class="field"><label>Firm</label><select id="dashFirm"></select></div><div class="field"><label>Material</label><select id="dashMaterial"></select></div></div><div class="actions"><button onclick="renderDashboard()">Apply filters</button><button class="secondary" onclick="resetDashboardDates()">All dates</button><button class="secondary" onclick="exportCSV(true)">Export filtered CSV</button></div></div>
+<div class="grid" id="dashMetrics"></div><div class="card"><h2>Firm overview</h2><div id="firmOverview"></div></div><div class="card"><h2>Recent transactions</h2><div id="recentTransactions"></div></div>
+</section>
+<section id="new" class="panel">
+<div class="card"><h2 id="entryHeading">New purchase / payment</h2><div class="muted">Formula defaults: 3.5 kg deduction per actual quintal, ₹25 labour per actual quintal, then 1% deduction after labour.</div>
+<form id="entryForm" onsubmit="saveTransaction(event)">
+<input type="hidden" id="editId">
+<div class="formgrid" style="margin-top:14px">
+<div class="field"><label>Firm *</label><select id="entryFirm" required></select></div>
+<div class="field"><label>Raw material *</label><select id="entryMaterial" required></select></div>
+<div class="field"><label>Date *</label><input type="date" id="entryDate" required></div>
+<div class="field"><label>Supplier name *</label><input id="supplier" required placeholder="Supplier / customer"></div>
+<div class="field"><label>Phone (optional)</label><input id="phone" inputmode="tel" placeholder="Phone number"></div>
+<div class="field"><label>Village / location</label><input id="village" placeholder="Village name"></div>
+<div class="field"><label>Actual weight (quintals) *</label><input type="number" id="weight" min="0.001" step="0.001" required placeholder="e.g. 100"></div>
+<div class="field"><label>Purchase price per quintal (₹) *</label><input type="number" id="price" min="0" step="0.01" required placeholder="e.g. 2500"></div>
+<div class="field"><label>Advance paid (₹)</label><input type="number" id="advance" min="0" step="0.01" value="0"></div>
+<div id="customFieldsEntry" class="wide"></div>
+</div>
+<div id="calcPreview" class="card" style="background:#f8fcf9"></div>
+<div class="actions"><button type="submit" id="saveBtn">Save transaction</button><button type="button" class="secondary" onclick="previewCalculation()">Calculate</button><button type="button" class="secondary" onclick="resetEntry()">Clear</button></div>
+</form></div></section>
+<section id="transactions" class="panel"><div class="card"><div class="between"><h2>Transaction register</h2><button class="secondary small" onclick="exportCSV(false)">Export all CSV</button></div>
+<div class="formgrid"><div class="field"><label>Search supplier / ID</label><input id="txSearch" placeholder="Search..." oninput="renderTransactions()"></div><div class="field"><label>Firm</label><select id="txFirm" onchange="renderTransactions()"></select></div><div class="field"><label>From</label><input type="date" id="txFrom" onchange="renderTransactions()"></div><div class="field"><label>To</label><input type="date" id="txTo" onchange="renderTransactions()"></div></div><div id="transactionTable"></div></div></section>
+<section id="average" class="panel"><div class="card"><h2>Average purchase price</h2><p class="muted">Choose a method, firm, material and date range. The default method is quantity-weighted average purchase price.</p>
+<div class="formgrid"><div class="field"><label>Average method</label><select id="avgMethod" onchange="renderAverage()"><option value="weighted">Weighted average (total amount ÷ total actual quantity)</option><option value="simple">Simple average of transaction rates</option><option value="netweight">Net-weight average (net amount ÷ net quantity)</option><option value="effective">Effective payable rate (final payment ÷ actual quantity)</option><option value="custom">Custom field-based formula</option></select></div><div class="field"><label>Firm</label><select id="avgFirm" onchange="renderAverage()"></select></div><div class="field"><label>Material</label><select id="avgMaterial" onchange="renderAverage()"></select></div><div class="field"><label>From date</label><input type="date" id="avgFrom" onchange="renderAverage()"></div><div class="field"><label>To date</label><input type="date" id="avgTo" onchange="renderAverage()"></div></div>
+<div id="avgResults"></div><div class="notice">Weighted average uses the combined quantity and amount, not the unweighted average of transaction rates. You can change the default method in Menu → Average Price Formula.</div></div></section>
+<section id="menu" class="panel"><div class="card"><h2>Menu & settings</h2><p class="muted">Customise the app without editing source code. Changes are saved locally on this device.</p>
+<button class="menuitem" onclick="showSettings('firms')"><span>🏢 Manage firms<small>Add, rename, deactivate or reactivate firms</small></span><b>›</b></button>
+<button class="menuitem" onclick="showSettings('formulas')"><span>🧮 Payment formula<small>Weight, labour and percentage deductions</small></span><b>›</b></button>
+<button class="menuitem" onclick="showSettings('averageFormula')"><span>📊 Average price formula<small>Default method and custom formula</small></span><b>›</b></button>
+<button class="menuitem" onclick="showSettings('materials')"><span>🌾 Materials & units<small>Add and manage raw materials</small></span><b>›</b></button>
+<button class="menuitem" onclick="showSettings('fields')"><span>🧩 Custom transaction fields<small>Add optional fields to the entry form</small></span><b>›</b></button>
+<button class="menuitem" onclick="showSettings('receipt')"><span>🧾 Receipt & app appearance<small>App name, receipt details and print</small></span><b>›</b></button>
+<button class="menuitem" onclick="showSettings('backup')"><span>💾 Backup & recovery<small>JSON backup, restore and CSV export</small></span><b>›</b></button>
+<div id="settingsArea"></div></div></section>
+</div><div id="toast" class="toast hidden" role="status"></div>
+<script src="app.js"></script></body></html>
